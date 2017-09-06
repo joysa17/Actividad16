@@ -11,71 +11,110 @@ aprobar, por defecto esa nota debe ser 5.
 Opción 4: Debe terminar el programa.	
 =end
 
-#promedio
+#opción 1: promedio
 def promedio
-file = File.open('alumnos.csv','r')
-data = file.readlines
-notas = []
-data.each {|line| notas.push(line.split(', ').map(&:chomp))}
-notas.each do |student_info| 
+	file = File.open('alumnos.csv','r')
+	data = file.readlines
+	notas = []
+	data.each {|line| notas.push(line.split(', ').map(&:chomp))}
+	notas.each do |student_info| 
 	#queremos obtener el nombre del alumno en una variable
 	#en otra variable quiero el promedio y al finalizar generar el archivo con el nombre
 	#del alumno y el promedio
 	name = student_info.shift
-	puts name
 	prom = get_promedio(student_info)
+	
 	puts "Promedio de notas del alumno: #{name} es #{prom}"
-	File.open('promedio.txt','w+')
-end 
+	
+	file = File.open('promedio.txt','a')
+	
+	file.puts "Promedio de notas del alumno: #{name} es #{prom}"
+	file.close	
+	end 
 end 
 
 def get_promedio(promedio)
 	sum = 0
 	promedio.each do |ele|
-    unless ele =="A"
-      sum += ele.to_i 
-       end 
-    end
-    return sum / promedio.length	
+		unless ele =="A"
+			sum += ele.to_i 
+		end 
+	end
+	return sum / promedio.length	
 end
 
+#Opción 2: Inasistencias
+def inasistencia
+	file = File.open('alumnos.csv','r')
+	data = file.readlines
+#obtener las inasistencias y mostrarlas en pantalla
+inas = []
+data.each {|line|inas.push(line.split(', ').map(&:chomp))}
+	
+inas.each do |inasis|
+	name = inasis.shift
+	n_inasistencia = get_inasistencias(inasis)
 
+	puts "Las inasistencias son del Alumno: #{name} son #{n_inasistencia}"
+	
+end
+end
 
-#notas = data.delete_if {|score| score == "A" } 
-#suma = notas.inject(0) { |acc, notas| acc + notas.split(', ')[1].to_i}
-#print notas 
-#puts suma / data.length
+def get_inasistencias(asistencia)
+	 
+	asistencia.count('A')
+	
+end
 
-#File.open('alumnos.txt','a+')
+#OPCIÓN 3: APROBADOS
 
+def aprobados
+	file = File.open('alumnos.csv','r')
+	data = file.readlines
+	#Debe mostrar los nombres de los alumnos aprobados. Para eso se debe crear 
+	#un método que reciba -como argumento- la nota necesaria para aprobar, 
+	#por defecto esa nota debe ser 5.
+	aprob = []
+    data.each {|line|aprob.push(line.split(', ').map(&:chomp))}
+		
+	aprob.each do |aprobados|
+	name = aprobados.shift
+	aprobado = get_promedio(aprobados)
+	if aprobado > 5
+	puts "El alumno #{name} fue aprobado con nota: #{aprobado}"
+	else
+		puts "El alumno #{name} fue reprobado con nota: #{aprobado}"
+	end
+end
+	
+end
 
- 
 
 opcion = 0
 
 while opcion 
-  puts 'Ingresa 1 para crear un archivo con los alumnos y sus promedios.'
-  puts 'Ingresa 2 para mostrar las inasistencias totales.'
-  puts 'Ingresa 3 para mostrar los alumnos aprobados.'
-  puts 'Ingresa 4 para salir.'
+	puts 'Ingresa 1 para crear un archivo con los alumnos y sus promedios.'
+	puts 'Ingresa 2 para mostrar las inasistencias totales.'
+	puts 'Ingresa 3 para mostrar los alumnos aprobados.'
+	puts 'Ingresa 4 para salir.'
 
-  opcion = gets.chomp.to_i
+	opcion = gets.chomp.to_i
 
-   case opcion
-       when 1
-           promedio
-         
-       when 2
-       	 puts "Inasistencia de los alumnos #{name}"
-         inasistencia()
-         
-       when 3
-         puts
-         
-       when 4
-         puts '¡Adios!'
-         exit
-       else
-         puts 'La opción no es válida. Vuelve a ingresar una opción.'
-       end
+	case opcion
+	when 1
+		promedio
+
+	when 2
+
+		inasistencia
+
+	when 3
+		aprobados
+
+	when 4
+		puts '¡Adios!'
+		exit
+	else
+		puts 'La opción no es válida. Vuelve a ingresar una opción.'
+	end
 end

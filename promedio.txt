@@ -1,0 +1,4 @@
+Promedio de notas del alumno: David es 3
+Promedio de notas del alumno: Gonzalo es 4
+Promedio de notas del alumno: Mai es 7
+Promedio de notas del alumno: JP es 10
